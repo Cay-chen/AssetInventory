@@ -51,8 +51,8 @@ func ModifyDB(sql string, args ...interface{}) (int64, error) {
 /*
 查询
 */
-func QueryRowDB(sql string, args ...interface{}) *sql.Row {
-	return db.QueryRow(sql, args)
+func QueryRowDB(sql string) *sql.Row {
+	return db.QueryRow(sql)
 }
 
 func QueryDB(sql string) (*sql.Rows, error) {

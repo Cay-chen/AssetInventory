@@ -8,13 +8,13 @@ import (
 )
 
 type User struct {
-	UserNo         int
-	UserName       string
-	UserCreateTime string
-	UserPsd        string
-	UserType       int
-	UserNum        string
-	UserState      int
+	UserNo         int    `json:"UserNo"`
+	UserName       string `json:"UserName"`
+	UserCreateTime string `json:"UserCreateTime"`
+	UserPsd        string `json:"UserPsd"`
+	UserType       int    `json:"UserType"`
+	UserNum        string `json:"UserNum"`
+	UserState      int    `json:"UserState"`
 }
 
 /*
@@ -63,7 +63,7 @@ func QueryUserWithUserName(username string) int {
 根据用户和密码查询用户信息
 */
 func QueryUserWithUser(username, password string) *sql.Row {
-	sql := fmt.Sprintf("SELECT * FROM pd_user_info WHERE UserNum = '%s' and UserPsd = '%s'", username, password)
+	sql := fmt.Sprintf("SELECT UserNo,UserName,UserType,UserNum,UserState FROM pd_user_info WHERE UserNum = '%s' and UserPsd = '%s'", username, password)
 	logs.Debug("Mysql语句:" + sql)
 	return utils.QueryRowDB(sql)
 

@@ -5,13 +5,12 @@ type IndexController struct {
 }
 
 func (c *IndexController) Get() {
-	c.TplName = "index.html"
+	if c.IsLogin {
+		c.Data["UserName"] = c.User.UserName
+		c.TplName = "index.html"
 
-	/*if c.IsLogin{
-		c.TplName="index.html"
-
-	}else {
-		c.TplName="login.html"
-	}*/
+	} else {
+		c.Redirect("/", 302)
+	}
 
 }
