@@ -52,8 +52,8 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;">盘点管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" id="dep_manage">资产数据</a></dd>
-                        <dd><a href="javascript:;" id="person_manage">用户管理</a></dd>
+                        <dd><a href="javascript:;" id="card_manage">资产数据</a></dd>
+                        <dd><a href="javascript:;" id="user_manage">用户管理</a></dd>
                     </dl>
                 </li>
 
@@ -112,13 +112,13 @@
         layui.$("#myShenPi").click(function () {
             layui.$("#mainContent").attr("src", "/approve");
         });
-        layui.$("#dep_manage").click(function () {
-            layui.$("#mainContent").attr("src", "/dep_manage");
+        layui.$("#card_manage").click(function () {
+            layui.$("#mainContent").attr("src", "/card");
         });
         layui.$("#change_password").click(function () {
             layui.$("#mainContent").attr("src", "/change_password");
-        });layui.$("#person_manage").click(function () {
-            layui.$("#mainContent").attr("src", "/person_manage");
+        });layui.$("#user_manage").click(function () {
+            layui.$("#mainContent").attr("src", "/user");
         });
     });
     function httpReplace(){
