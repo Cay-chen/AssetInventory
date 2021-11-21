@@ -27,7 +27,7 @@ func (c *BaseController) Prepare() {
 			c.User = res
 			c.IsLogin = true
 		}
-
+		c.Data["UserName"] = res.UserName
 	} else {
 		c.IsLogin = false
 	}

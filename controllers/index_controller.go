@@ -1,14 +1,16 @@
 package controllers
 
+import "AssetInventory/models"
+
 type IndexController struct {
 	BaseController
 }
 
 func (c *IndexController) Get() {
 	if c.IsLogin {
-		c.Data["UserName"] = c.User.UserName
+		depList, _ := models.GetDepList()
+		c.Data["DepList"] = depList
 		c.TplName = "index.html"
-
 	} else {
 		c.Redirect("/", 302)
 	}

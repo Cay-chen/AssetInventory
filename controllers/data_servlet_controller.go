@@ -33,8 +33,21 @@ func (c *DataServletController) Get() {
 			c.Ctx.WriteString(string(result))
 			break
 		case "cards":
-			data, _ := models.GetListCardInfo(strconv.Itoa(beginNo), strconv.Itoa(limit))
-			result, _ := json.Marshal(GetTableData("成功！", data, 0, utils.QueryTableTotalCount("pd_card_info")))
+			where := ""
+			depName := c.GetString("depName")
+			assetsNo := c.GetString("assetsNo")
+			if depName != "" {
+				where = where + "WHERE user_dep='" + depName + "'"
+				if assetsNo != "" {
+					where = where + " AND card_no='" + assetsNo + "'"
+				}
+			} else {
+				if assetsNo != "" {
+					where = where + "WHERE card_no='" + assetsNo + "'"
+				}
+			}
+			data, _ := models.GetListCardInfo(where, strconv.Itoa(beginNo), strconv.Itoa(limit))
+			result, _ := json.Marshal(GetTableData("成功！", data, 0, utils.QueryTableTotalCount("pd_card_info "+where)))
 			c.Ctx.WriteString(string(result))
 			break
 		default:

@@ -14,8 +14,8 @@ type CardInfo struct {
 	User    string `json:"user"`
 }
 
-func GetListCardInfo(beginNo, pageSize string) ([]interface{}, error) {
-	rows, err := utils.QueryTableLimitData("pd_card_info", beginNo, pageSize)
+func GetListCardInfo(where, beginNo, pageSize string) ([]interface{}, error) {
+	rows, err := utils.QueryTableLimitData("pd_card_info "+where, beginNo, pageSize)
 	if err != nil {
 		logs.Error(err)
 		return nil, err
@@ -30,6 +30,7 @@ func GetListCardInfo(beginNo, pageSize string) ([]interface{}, error) {
 		user := ""
 		rows.Scan(&cardNo, &name, &spec, &place, &userDep, &user)
 		art := CardInfo{cardNo, name, spec, place, userDep, user}
+		logs.Debug(art)
 		artList = append(artList, art)
 	}
 	return artList, nil

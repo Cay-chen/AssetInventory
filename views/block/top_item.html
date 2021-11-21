@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>资产盘点系统</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+</head>
+<body style='overflow:scroll;overflow-x:hidden'>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black" style="font-size: 24px;font-family: ‘楷体’,‘楷体_GB2312’; ">
+            资产盘点系统
+        </div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    {{.UserName}}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a id="change_password">修改密码</a></dd>
+                    <dd><a href="/exit">退出系统</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
