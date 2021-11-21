@@ -58,7 +58,7 @@ func QueryDB(sql string) (*sql.Rows, error) {
 
 // QueryTableLimitData 按照limit查询数据
 func QueryTableLimitData(tableAndWhere, beginNo, pageSize string) (*sql.Rows, error) {
-	sqlS := fmt.Sprintf("SELECT *  FROM %s LIMIT %s,%s", tableAndWhere, beginNo, pageSize)
+	sqlS := fmt.Sprintf("SELECT * FROM %s LIMIT %s,%s", tableAndWhere, beginNo, pageSize)
 	logs.Debug("MYSQL语句:" + sqlS)
 	return QueryDB(sqlS)
 

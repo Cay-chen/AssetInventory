@@ -2,6 +2,7 @@ package models
 
 import (
 	"AssetInventory/utils"
+	"fmt"
 	"github.com/beego/beego/v2/core/logs"
 )
 
@@ -15,7 +16,8 @@ type CardInfo struct {
 }
 
 func GetListCardInfo(where, beginNo, pageSize string) ([]interface{}, error) {
-	rows, err := utils.QueryTableLimitData("pd_card_info "+where, beginNo, pageSize)
+	sqlS := fmt.Sprintf("SELECT ifnull(card_no,' ') as card_no,ifnull(name,' ') as name,ifnull(spec,' ') as spec,ifnull(place,' ') as place ,ifnull(user_dep,' ') as user_dep,ifnull(user,' ') as user FROM pd_card_info %s LIMIT %s,%s", where, beginNo, pageSize)
+	rows, err := utils.QueryDB(sqlS)
 	if err != nil {
 		logs.Error(err)
 		return nil, err
@@ -30,7 +32,6 @@ func GetListCardInfo(where, beginNo, pageSize string) ([]interface{}, error) {
 		user := ""
 		rows.Scan(&cardNo, &name, &spec, &place, &userDep, &user)
 		art := CardInfo{cardNo, name, spec, place, userDep, user}
-		logs.Debug(art)
 		artList = append(artList, art)
 	}
 	return artList, nil
