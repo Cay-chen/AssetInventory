@@ -71,7 +71,7 @@ func (c *LoginController) Post() {
 		}
 		logs.Debug("登录成功！")
 
-		c.Redirect("/index", 302)
+		c.Redirect("/assets", 302)
 	} else {
 		logs.Debug("用户名或者密码错误！")
 		flash := beego.NewFlash()

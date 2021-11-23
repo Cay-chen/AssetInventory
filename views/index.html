@@ -1,5 +1,18 @@
 {{template "block/top_item.html" .}}
-{{template "block/left_item.html" .}}
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item" id="myHuiZhen"><a href="/index">我的盘点</a></li>
+            <li class="layui-nav-item layui-nav-itemed" >
+                <a href="javascript:;">盘点管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/index" id="dep_manage" class="layui-this">&#12288;资产数据</a></dd>
+                    <dd><a href="javascript:;" id="person_manage">&#12288;用户管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
 <!-- 内容主体区域 -->
 <h1 align="center">资产明细</h1>
 <div class="layui-body">
