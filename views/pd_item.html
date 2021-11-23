@@ -1,0 +1,75 @@
+{{template "block/top_item.html" .}}
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item layui-this" id="myHuiZhen"><a href="/index">我的盘点</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">盘点管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/card" id="dep_manage" >资产数据</a></dd>
+                    <dd><a href="javascript:;" id="person_manage">用户管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 内容主体区域 -->
+<h1 align="center">资产明细</h1>
+<div class="layui-body">
+    <table class="layui-hide" id="assets_table" lay-filter="test" lay-filter="user"></table>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+        <div class="layui-inline">
+            <input class="layui-input" id="pd_no" autocomplete="off" placeholder="请输入盘点码">
+        </div>
+        <button class="layui-btn" data-type="reload" lay-event="ss" style="margin-left: 15px">搜索</button>
+        <button class="layui-btn"  lay-event="cj" style="margin-left: 15px">创建盘点</button>
+
+    </div>
+</script>
+<script src="/static/layui/layui.js"></script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#assets_table'
+            , url: '/data/items'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['filter', 'exports']
+            , title: '用户数据表'
+            , cols: [[
+                {field: 'pd_no', title: '盘点码', cellMinWidth: 100, fixed: 'left', unresize: true, sort: true}
+                , {field: 'pd_msg', title: '盘点名称', cellMinWidth: 120}
+                , {field: 'pd_start_time', title: '开始时间', cellMinWidth: 150}
+                , {field: 'pd_end_time', title: '结束时间', width: 225}
+                , {field: 'pd_create_name', title: '创建人', cellMinWidth: 120, templet: '#titleTpl'}
+                , {field: 'pd_create_time', title: '创建时间', cellMinWidth: 120}
+            ]]
+            , id: 'assets'
+            , page: true
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            switch (obj.event) {
+                case 'ss':
+                    var select_belong_dev = layui.$("#select_dep").val();
+                    table.reload('assets', {
+                            where: {
+                                depName: layui.$('#select_dep').val()
+                                , assetsNo: layui.$('#assets_code').val()
+                            }
+                            ,
+                            page: {
+                                curr: 1
+                            }
+                        }
+                    );
+                    layui.$("#select_dep").val(select_belong_dev);
+                    break;
+            }
+        });
+    });
+</script>
+{{template "block/bottom_mesg.html" .}}
+

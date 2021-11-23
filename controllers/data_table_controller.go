@@ -4,11 +4,10 @@ import (
 	"AssetInventory/models"
 	"AssetInventory/utils"
 	"encoding/json"
-	"github.com/beego/beego/v2/core/logs"
 	"strconv"
 )
 
-type DataServletController struct {
+type DataTableServletController struct {
 	BaseController
 }
 type TableData struct {
@@ -18,14 +17,12 @@ type TableData struct {
 	Data  interface{} `json:"data"`
 }
 
-func (c *DataServletController) Get() {
+func (c *DataTableServletController) Get() {
 	if c.IsLogin {
 		id := c.Ctx.Input.Param(":id")
 		limit, _ := c.GetInt("limit")
 		page, _ := c.GetInt("page")
 		beginNo := (page - 1) * limit
-		logs.Debug(page)
-		logs.Debug(limit)
 		switch id {
 		case "users":
 			data, _ := models.GetListUserInfo(strconv.Itoa(beginNo), strconv.Itoa(limit))
@@ -48,6 +45,24 @@ func (c *DataServletController) Get() {
 			}
 			data, _ := models.GetListCardInfo(where, strconv.Itoa(beginNo), strconv.Itoa(limit))
 			result, _ := json.Marshal(GetTableData("成功！", data, 0, utils.QueryTableTotalCount("pd_card_info "+where)))
+			c.Ctx.WriteString(string(result))
+			break
+		case "items":
+			where := ""
+			depName := c.GetString("depName")
+			assetsNo := c.GetString("assetsNo")
+			if depName != "" {
+				where = where + "WHERE user_dep='" + depName + "'"
+				if assetsNo != "" {
+					where = where + " AND card_no='" + assetsNo + "'"
+				}
+			} else {
+				if assetsNo != "" {
+					where = where + "WHERE card_no='" + assetsNo + "'"
+				}
+			}
+			data, _ := models.GetPdItemList(where, strconv.Itoa(beginNo), strconv.Itoa(limit))
+			result, _ := json.Marshal(GetTableData("成功！", data, 0, utils.QueryTableTotalCount("pd_item "+where)))
 			c.Ctx.WriteString(string(result))
 			break
 		default:

@@ -11,5 +11,5 @@ func init() {
 	beego.Router("/exit", &controllers.ExitController{})
 	beego.Router("/user", &controllers.UserController{})
 	beego.Router("/card", &controllers.CardController{})
-	beego.Router("/data/:id", &controllers.DataServletController{})
+	beego.Router("/data/:id", &controllers.DataTableServletController{})
 }
