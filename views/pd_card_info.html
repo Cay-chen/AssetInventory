@@ -2,7 +2,7 @@
 <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
-            <li class="layui-nav-item " id="myHuiZhen"><a href="/index">我的盘点</a></li>
+            <li class="layui-nav-item " id="myHuiZhen"><a href="/item">我的盘点</a></li>
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">盘点管理</a>
                 <dl class="layui-nav-child">
@@ -40,7 +40,7 @@
         var table = layui.table;
         table.render({
             elem: '#assets_table'
-            , url: '/data/cards'
+            , url: '/data/table/cards'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports']
             , title: '用户数据表'

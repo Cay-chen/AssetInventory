@@ -38,3 +38,8 @@ func GetPdItemList(where, beginNo, pageSize string) ([]interface{}, error) {
 	}
 	return artList, nil
 }
+
+func InsertItem(PdMsg, PdStartTime, PdCreateName, IPdEndTime string) (int64, error) {
+	return utils.ModifyDB("INSERT INTO pd_item (pd_msg,pd_start_time,pd_create_name,pd_create_time,pd_end_time) VALUES (?,?,?,?,?,?)", PdMsg, PdStartTime, PdCreateName, "NOW()", IPdEndTime)
+
+}

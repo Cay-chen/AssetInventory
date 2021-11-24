@@ -1,14 +1,13 @@
 package controllers
 
-type IndexController struct {
+type ItemController struct {
 	BaseController
 }
 
-func (c *IndexController) Get() {
+func (c *ItemController) Get() {
 	if c.IsLogin {
 		c.TplName = "pd_item.html"
 	} else {
 		c.Redirect("/", 302)
 	}
-
 }

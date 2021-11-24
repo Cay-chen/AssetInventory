@@ -53,13 +53,13 @@ func QueryRowDB(sql string) *sql.Row {
 
 // QueryDB 查询所有数据/*
 func QueryDB(sql string) (*sql.Rows, error) {
+	logs.Debug("MYSQL语句:" + sql)
 	return db.Query(sql)
 }
 
 // QueryTableLimitData 按照limit查询数据
 func QueryTableLimitData(tableAndWhere, beginNo, pageSize string) (*sql.Rows, error) {
 	sqlS := fmt.Sprintf("SELECT * FROM %s LIMIT %s,%s", tableAndWhere, beginNo, pageSize)
-	logs.Debug("MYSQL语句:" + sqlS)
 	return QueryDB(sqlS)
 
 }

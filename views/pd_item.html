@@ -2,7 +2,7 @@
 <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
-            <li class="layui-nav-item layui-this" id="myHuiZhen"><a href="/index">我的盘点</a></li>
+            <li class="layui-nav-item layui-this" id="myHuiZhen"><a href="/item">我的盘点</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">盘点管理</a>
                 <dl class="layui-nav-child">
@@ -15,7 +15,75 @@
 </div>
 <!-- 内容主体区域 -->
 <h1 align="center">资产明细</h1>
+<style type="text/css">
+    .change-person{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        display:none;
+        z-index: 999;
+
+    }
+    .change-person-data {
+        position: absolute;
+        padding: 15px;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        left: 50%;
+        top: 50%;
+        min-width: 360px;
+        transform: translate(-50%, -50%);
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        background: whitesmoke;
+    }
+
+</style>
 <div class="layui-body">
+    <div class="change-person" id="change-person">
+        <div class="change-person-data" >
+            <table action="" method="post" class="layui-form" >
+                <h1 align="center">创建盘点</h1>
+                <div class="layui-form-item" style="margin-top: 15px">
+                    <label class="layui-form-label" >盘点名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="PdMsg" lay-verify="title" placeholder="请输入盘点名称" autocomplete="off"
+                               class="layui-input" id="PdMsg"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="PdStartTime" id="PdStartTime" lay-verify="date" placeholder="开始时间"
+                               autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="PdEndTime" id="PdEndTime" lay-verify="date" placeholder="结束时间"
+                               autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
+                        <button  class="layui-btn" style="width:20%;height:35px;margin-right: 15px" onclick="createPd()">
+                            创建
+                        </button>
+                        <button  class="layui-btn" style="width:20%;height:35px;margin-left: 15px" onclick="hidd()">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </table>
+        </div>
+
+    </div>
+
     <table class="layui-hide" id="assets_table" lay-filter="test" lay-filter="user"></table>
 </div>
 <script type="text/html" id="toolbarDemo">
@@ -30,11 +98,11 @@
 </script>
 <script src="/static/layui/layui.js"></script>
 <script>
-    layui.use('table', function () {
+    layui.use(['table','laydate'], function () {
         var table = layui.table;
         table.render({
             elem: '#assets_table'
-            , url: '/data/items'
+            , url: '/data/table/items'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports']
             , title: '用户数据表'
@@ -67,9 +135,41 @@
                     );
                     layui.$("#select_dep").val(select_belong_dev);
                     break;
+                    case "cj":
+                        layui.$("#change-person").css("display", "block");
+                        layui.$("#change-person").focus().select();
+                        break;
             }
         });
     });
+    function hidd() {
+        document.getElementById('change-person').style.display = "none";
+    }
+    function createPd(){
+        var PdMsg = layui.$("#PdMsg").val().trim();
+        var PdStartTime = layui.$("#PdStartTime").val().trim();
+        var PdEndTime = layui.$("#PdEndTime").val().trim();
+        if(PdMsg!==""&&PdEndTime!==""&&PdStartTime!==""){
+            layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+            console.log(PdMsg+PdStartTime+PdEndTime);
+            layui.$.ajax({
+                url: "",
+                success:function (res){
+
+                },
+                error:function (res) {
+
+                }
+            });
+
+        }else {
+         layer.msg("内容没有填完！", {icon: 1});
+          return
+        }
+
+    }
 </script>
 {{template "block/bottom_mesg.html" .}}
 
