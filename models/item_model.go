@@ -17,7 +17,7 @@ type ItemBean struct {
 }
 
 func GetPdItemList(where, beginNo, pageSize string) ([]interface{}, error) {
-	sqlS := fmt.Sprintf("select i.pd_no,i.pd_msg,u.UserName as pd_create_name,i.pd_start_time ,i.pd_end_time,i.pd_create_time,i.pd_status from pd_item i inner join pd_user_info u where i.pd_create_name =u.UserNo  %s LIMIT %s,%s", where, beginNo, pageSize)
+	sqlS := fmt.Sprintf("select i.pd_no,i.pd_msg,u.UserName as pd_create_name,i.pd_start_time ,i.pd_end_time,i.pd_create_time,i.pd_status from pd_item i inner join pd_user_info u where i.pd_create_name =u.UserNum  %s order by i.pd_create_time desc limit %s,%s ", where, beginNo, pageSize)
 	rows, err := utils.QueryDB(sqlS)
 	if err != nil {
 		logs.Error(err)
@@ -32,7 +32,10 @@ func GetPdItemList(where, beginNo, pageSize string) ([]interface{}, error) {
 		pdStatus := ""
 		pdCreateTime := ""
 		pdEndTime := ""
-		rows.Scan(&pdNo, &pdMsg, &pdCreateName, &pdStartTime, &pdEndTime, &pdCreateTime, &pdStatus)
+		err := rows.Scan(&pdNo, &pdMsg, &pdCreateName, &pdStartTime, &pdEndTime, &pdCreateTime, &pdStatus)
+		if err != nil {
+			return nil, err
+		}
 		art := ItemBean{pdNo, pdStartTime, pdMsg, pdCreateName, pdStatus, pdCreateTime, pdEndTime}
 		artList = append(artList, art)
 	}
@@ -40,6 +43,5 @@ func GetPdItemList(where, beginNo, pageSize string) ([]interface{}, error) {
 }
 
 func InsertItem(PdMsg, PdStartTime, PdCreateName, IPdEndTime string) (int64, error) {
-	return utils.ModifyDB("INSERT INTO pd_item (pd_msg,pd_start_time,pd_create_name,pd_create_time,pd_end_time) VALUES (?,?,?,?,?,?)", PdMsg, PdStartTime, PdCreateName, "NOW()", IPdEndTime)
-
+	return utils.ModifyDB("INSERT INTO pd_item (pd_msg,pd_start_time,pd_create_name,pd_create_time,pd_end_time) VALUES (?,?,?,NOW(),?)", PdMsg, PdStartTime, PdCreateName, IPdEndTime)
 }
